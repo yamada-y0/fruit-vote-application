@@ -1,4 +1,4 @@
-package com.github.yamay0.domain.model;
+package com.github.yamay0.application.domain.model;
 
 public record UserId(String id) {
     public UserId {

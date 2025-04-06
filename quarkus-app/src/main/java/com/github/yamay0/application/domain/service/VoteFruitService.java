@@ -1,9 +1,9 @@
-package com.github.yamay0.domain.service;
+package com.github.yamay0.application.domain.service;
 
+import com.github.yamay0.application.domain.model.Fruit;
+import com.github.yamay0.application.domain.model.UserId;
 import com.github.yamay0.application.port.in.VoteFruitUseCase;
 import com.github.yamay0.application.port.out.VoteFruitPort;
-import com.github.yamay0.domain.model.Fruit;
-import com.github.yamay0.domain.model.UserId;
 
 import java.util.List;
 import java.util.Set;
@@ -16,7 +16,7 @@ class VoteFruitService implements VoteFruitUseCase {
     }
 
     @Override
-    public void vote(List<Fruit> fruits, UserId userId) {
+    public void execute(List<Fruit> fruits, UserId userId) {
         if (fruits == null || fruits.isEmpty()) {
             throw new IllegalArgumentException("Fruits cannot be null or empty");
         }

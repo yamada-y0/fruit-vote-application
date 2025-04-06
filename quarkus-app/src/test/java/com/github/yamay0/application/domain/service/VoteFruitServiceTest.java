@@ -1,8 +1,8 @@
-package com.github.yamay0.domain.service;
+package com.github.yamay0.application.domain.service;
 
+import com.github.yamay0.application.domain.model.Fruit;
+import com.github.yamay0.application.domain.model.UserId;
 import com.github.yamay0.application.port.out.VoteFruitPort;
-import com.github.yamay0.domain.model.Fruit;
-import com.github.yamay0.domain.model.UserId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ class VoteFruitServiceTest {
 
     @Test
     @DisplayName("引数で与えられた全てのFruitに投票がされていること")
-    void testVote() {
+    void testExecute() {
         // given
         List<Fruit> fruits = List.of(
                 Fruit.BANANA,
@@ -27,7 +27,7 @@ class VoteFruitServiceTest {
         UserId userId = new UserId("test-user-id");
 
         // when
-        sut.vote(fruits, userId);
+        sut.execute(fruits, userId);
 
         // then
         for (Fruit fruit : fruits) {
@@ -37,7 +37,7 @@ class VoteFruitServiceTest {
 
     @Test
     @DisplayName("引数で与えられた全てのFruitに重複がある場合にIllegalArgumentExceptionが発生すること")
-    void testVoteWithDuplicateFruits() {
+    void testExecuteWithDuplicateFruits() {
         // given
         List<Fruit> fruits = List.of(
                 Fruit.BANANA,
@@ -48,36 +48,36 @@ class VoteFruitServiceTest {
         UserId userId = new UserId("test-user-id");
 
         // when, then
-        assertThrows(IllegalArgumentException.class, () -> sut.vote(fruits, userId));
+        assertThrows(IllegalArgumentException.class, () -> sut.execute(fruits, userId));
         verifyNoInteractions(voteFruitPort);
     }
 
     @Test
     @DisplayName("引数で与えられたFruitがnullの場合にIllegalArgumentExceptionが発生すること")
-    void testVoteWithNullFruits() {
+    void testExecuteWithNullFruits() {
         // given
         UserId userId = new UserId("test-user-id");
 
         // when, then
-        assertThrows(IllegalArgumentException.class, () -> sut.vote(null, userId));
+        assertThrows(IllegalArgumentException.class, () -> sut.execute(null, userId));
         verifyNoInteractions(voteFruitPort);
     }
 
     @Test
     @DisplayName("引数で与えられたFruitが空の場合にIllegalArgumentExceptionが発生すること")
-    void testVoteWithEmptyFruits() {
+    void testExecuteWithEmptyFruits() {
         // given
         List<Fruit> fruits = List.of();
         UserId userId = new UserId("test-user-id");
 
         // when, then
-        assertThrows(IllegalArgumentException.class, () -> sut.vote(fruits, userId));
+        assertThrows(IllegalArgumentException.class, () -> sut.execute(fruits, userId));
         verifyNoInteractions(voteFruitPort);
     }
 
     @Test
     @DisplayName("引数で与えられたUserIdがnullの場合にIllegalArgumentExceptionが発生すること")
-    void testVoteWithNullUserId() {
+    void testExecuteWithNullUserId() {
         // given
         List<Fruit> fruits = List.of(
                 Fruit.BANANA,
@@ -86,7 +86,7 @@ class VoteFruitServiceTest {
         );
 
         // when, then
-        assertThrows(IllegalArgumentException.class, () -> sut.vote(fruits, null));
+        assertThrows(IllegalArgumentException.class, () -> sut.execute(fruits, null));
         verifyNoInteractions(voteFruitPort);
     }
 }
