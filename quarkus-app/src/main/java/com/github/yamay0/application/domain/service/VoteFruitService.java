@@ -4,10 +4,12 @@ import com.github.yamay0.application.domain.model.Fruit;
 import com.github.yamay0.application.domain.model.UserId;
 import com.github.yamay0.application.port.in.VoteFruitUseCase;
 import com.github.yamay0.application.port.out.VoteFruitPort;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
 import java.util.Set;
 
+@ApplicationScoped
 class VoteFruitService implements VoteFruitUseCase {
     private final VoteFruitPort voteFruitPort;
 
