@@ -74,4 +74,19 @@ class VoteFruitServiceTest {
         assertThrows(IllegalArgumentException.class, () -> sut.vote(fruits, userId));
         verifyNoInteractions(voteFruitPort);
     }
+
+    @Test
+    @DisplayName("引数で与えられたUserIdがnullの場合にIllegalArgumentExceptionが発生すること")
+    void testVoteWithNullUserId() {
+        // given
+        List<Fruit> fruits = List.of(
+                Fruit.BANANA,
+                Fruit.APPLE,
+                Fruit.GRAPE
+        );
+
+        // when, then
+        assertThrows(IllegalArgumentException.class, () -> sut.vote(fruits, null));
+        verifyNoInteractions(voteFruitPort);
+    }
 }
