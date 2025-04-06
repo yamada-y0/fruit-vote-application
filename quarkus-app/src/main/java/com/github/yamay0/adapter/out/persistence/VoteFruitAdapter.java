@@ -6,8 +6,15 @@ import com.github.yamay0.application.port.out.VoteFruitPort;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-class StubVoteFruitAdapter implements VoteFruitPort {
+public class VoteFruitAdapter implements VoteFruitPort {
+    private final VoteRepository voteRepository;
+
+    public VoteFruitAdapter(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
+    }
+
     @Override
     public void vote(Fruit fruits, UserId userId) {
+        voteRepository.persist(VoteEntity.from(fruits, userId));
     }
 }

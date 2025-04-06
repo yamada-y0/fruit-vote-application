@@ -5,6 +5,7 @@ import com.github.yamay0.application.domain.model.UserId;
 import com.github.yamay0.application.port.in.VoteFruitUseCase;
 import com.github.yamay0.application.port.out.VoteFruitPort;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,7 @@ class VoteFruitService implements VoteFruitUseCase {
     }
 
     @Override
+    @Transactional
     public void execute(List<Fruit> fruits, UserId userId) {
         if (fruits == null || fruits.isEmpty()) {
             throw new IllegalArgumentException("Fruits cannot be null or empty");
