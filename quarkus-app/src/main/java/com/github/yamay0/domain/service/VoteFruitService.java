@@ -20,6 +20,9 @@ class VoteFruitService implements VoteFruitUseCase {
         if (fruits == null || fruits.isEmpty()) {
             throw new IllegalArgumentException("Fruits cannot be null or empty");
         }
+        if (userId == null) {
+            throw new IllegalArgumentException("UserId cannot be null");
+        }
         Set<Fruit> uniqueFruits = Set.copyOf(fruits);
         if (uniqueFruits.size() != fruits.size()) {
             throw new IllegalArgumentException("Fruits must be unique");
