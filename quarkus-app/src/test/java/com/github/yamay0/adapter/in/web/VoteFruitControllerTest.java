@@ -1,6 +1,7 @@
 package com.github.yamay0.adapter.in.web;
 
 import com.github.yamay0.application.domain.model.Fruit;
+import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,7 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 
 @QuarkusTest
+@TestHTTPEndpoint(VoteFruitController.class)
 class VoteFruitControllerTest {
     @Test
     @DisplayName("投票が成功すること")
@@ -18,7 +20,7 @@ class VoteFruitControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(new VoteFruitRequest(List.of(Fruit.BANANA, Fruit.APPLE), "userId"))
-                .when().post("/vote-fruit")
+                .when().post()
                 .then()
                 .statusCode(204);
     }
@@ -29,7 +31,7 @@ class VoteFruitControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(new VoteFruitRequest(null, "userId"))
-                .when().post("/vote-fruit")
+                .when().post()
                 .then()
                 .statusCode(400);
     }
@@ -40,7 +42,7 @@ class VoteFruitControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(new VoteFruitRequest(List.of(), "userId"))
-                .when().post("/vote-fruit")
+                .when().post()
                 .then()
                 .statusCode(400);
     }
@@ -51,7 +53,7 @@ class VoteFruitControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(new VoteFruitRequest(List.of(Fruit.BANANA, Fruit.APPLE), null))
-                .when().post("/vote-fruit")
+                .when().post()
                 .then()
                 .statusCode(400);
     }
@@ -62,7 +64,7 @@ class VoteFruitControllerTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(new VoteFruitRequest(List.of(Fruit.BANANA, Fruit.APPLE), ""))
-                .when().post("/vote-fruit")
+                .when().post()
                 .then()
                 .statusCode(400);
     }
