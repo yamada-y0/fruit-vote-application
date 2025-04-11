@@ -9,12 +9,12 @@ import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 
-@Path("/fruit-ranking")
+@Path("/fruit-rank")
 @Produces(MediaType.APPLICATION_JSON)
-public class GetFruitRankingController {
+public class FruitRankController {
     private final GetFruitRankUseCase getFruitRankUseCase;
 
-    public GetFruitRankingController(GetFruitRankUseCase getFruitRankUseCase) {
+    public FruitRankController(GetFruitRankUseCase getFruitRankUseCase) {
         this.getFruitRankUseCase = getFruitRankUseCase;
     }
 
