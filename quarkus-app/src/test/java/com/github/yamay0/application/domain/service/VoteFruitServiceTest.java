@@ -89,4 +89,28 @@ class VoteFruitServiceTest {
         assertThrows(IllegalArgumentException.class, () -> sut.execute(fruits, null));
         verifyNoInteractions(voteFruitPort);
     }
+
+    @Test
+    @DisplayName("同じユーザーによる複数回の投票の場合に、未投票のFruitに対してのみ追加で投票されること")
+    void testExecuteWithAlreadyVotedFruits() {
+        // given
+        List<Fruit> fruits = List.of(
+                Fruit.BANANA,
+                Fruit.APPLE,
+                Fruit.GRAPE
+        );
+        UserId userId = new UserId("test-user-id");
+
+        when(voteFruitPort.hasAlreadyVoted(Fruit.BANANA, userId)).thenReturn(true);
+        when(voteFruitPort.hasAlreadyVoted(Fruit.APPLE, userId)).thenReturn(false);
+        when(voteFruitPort.hasAlreadyVoted(Fruit.GRAPE, userId)).thenReturn(false);
+
+        // when
+        sut.execute(fruits, userId);
+
+        // then
+        verify(voteFruitPort).vote(Fruit.APPLE, userId);
+        verify(voteFruitPort).vote(Fruit.GRAPE, userId);
+        verify(voteFruitPort, never()).vote(Fruit.BANANA, userId);
+    }
 }

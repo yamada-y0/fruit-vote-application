@@ -17,4 +17,10 @@ public class VoteFruitAdapter implements VoteFruitPort {
     public void vote(Fruit fruits, UserId userId) {
         voteRepository.persist(VoteEntity.from(fruits, userId));
     }
+
+    @Override
+    public boolean hasAlreadyVoted(Fruit fruit, UserId userId) {
+        VoteEntity voteEntity = VoteEntity.from(fruit, userId);
+        return voteRepository.isPersistent(voteEntity);
+    }
 }

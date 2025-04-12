@@ -31,6 +31,8 @@ class VoteFruitService implements VoteFruitUseCase {
         if (uniqueFruits.size() != fruits.size()) {
             throw new IllegalArgumentException("Fruits must be unique");
         }
-        fruits.forEach(fruit -> voteFruitPort.vote(fruit, userId));
+        fruits.stream()
+                .filter(fruit -> !voteFruitPort.hasAlreadyVoted(fruit, userId))
+                .forEach(fruit -> voteFruitPort.vote(fruit, userId));
     }
 }
