@@ -28,6 +28,13 @@ public class VoteAndRankScenarioTest {
                 .when().post("/vote-fruit")
                 .then()
                 .statusCode(204);
+        // 無効な投票
+        given()
+                .contentType(ContentType.JSON)
+                .body(new VoteFruitRequest(List.of(Fruit.BANANA), "user1"))
+                .when().post("/vote-fruit")
+                .then()
+                .statusCode(204);
         // 投票2
         given()
                 .contentType(ContentType.JSON)
