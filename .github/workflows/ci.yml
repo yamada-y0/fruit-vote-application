@@ -26,3 +26,9 @@ jobs:
       - name: Build and run tests
         working-directory: ./quarkus-app
         run: ./gradlew build
+
+      - name: Run testNative
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: ./quarkus-app
+        run: |
+          ./gradlew testNative
