@@ -2,7 +2,8 @@ package com.github.yamay0.application.domain.service;
 
 import com.github.yamay0.application.domain.model.Fruit;
 import com.github.yamay0.application.domain.model.UserId;
-import com.github.yamay0.application.port.out.VoteFruitPort;
+import com.github.yamay0.application.port.out.VoteCommandRepository;
+import com.github.yamay0.application.port.out.VoteQueryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class VoteFruitServiceTest {
-    private final VoteFruitPort voteFruitPort = mock(VoteFruitPort.class);
-    private final VoteFruitService sut = new VoteFruitService(voteFruitPort);
+    private final VoteCommandRepository voteCommandRepository = mock(VoteCommandRepository.class);
+    private final VoteQueryRepository voteQueryRepository = mock(VoteQueryRepository.class);
+    private final VoteFruitService sut = new VoteFruitService(voteCommandRepository, voteQueryRepository);
 
     @Test
     @DisplayName("引数で与えられた全てのFruitに投票がされていること")
@@ -31,7 +33,7 @@ class VoteFruitServiceTest {
 
         // then
         for (Fruit fruit : fruits) {
-            verify(voteFruitPort).vote(fruit, userId);
+            verify(voteCommandRepository).save(fruit, userId);
         }
     }
 
@@ -49,7 +51,7 @@ class VoteFruitServiceTest {
 
         // when, then
         assertThrows(IllegalArgumentException.class, () -> sut.execute(fruits, userId));
-        verifyNoInteractions(voteFruitPort);
+        verifyNoInteractions(voteCommandRepository);
     }
 
     @Test
@@ -60,7 +62,7 @@ class VoteFruitServiceTest {
 
         // when, then
         assertThrows(IllegalArgumentException.class, () -> sut.execute(null, userId));
-        verifyNoInteractions(voteFruitPort);
+        verifyNoInteractions(voteCommandRepository);
     }
 
     @Test
@@ -72,7 +74,7 @@ class VoteFruitServiceTest {
 
         // when, then
         assertThrows(IllegalArgumentException.class, () -> sut.execute(fruits, userId));
-        verifyNoInteractions(voteFruitPort);
+        verifyNoInteractions(voteCommandRepository);
     }
 
     @Test
@@ -87,7 +89,7 @@ class VoteFruitServiceTest {
 
         // when, then
         assertThrows(IllegalArgumentException.class, () -> sut.execute(fruits, null));
-        verifyNoInteractions(voteFruitPort);
+        verifyNoInteractions(voteCommandRepository);
     }
 
     @Test
@@ -101,16 +103,16 @@ class VoteFruitServiceTest {
         );
         UserId userId = new UserId("test-user-id");
 
-        when(voteFruitPort.hasAlreadyVoted(Fruit.BANANA, userId)).thenReturn(true);
-        when(voteFruitPort.hasAlreadyVoted(Fruit.APPLE, userId)).thenReturn(false);
-        when(voteFruitPort.hasAlreadyVoted(Fruit.GRAPE, userId)).thenReturn(false);
+        when(voteQueryRepository.exists(Fruit.BANANA, userId)).thenReturn(true);
+        when(voteQueryRepository.exists(Fruit.APPLE, userId)).thenReturn(false);
+        when(voteQueryRepository.exists(Fruit.GRAPE, userId)).thenReturn(false);
 
         // when
         sut.execute(fruits, userId);
 
         // then
-        verify(voteFruitPort).vote(Fruit.APPLE, userId);
-        verify(voteFruitPort).vote(Fruit.GRAPE, userId);
-        verify(voteFruitPort, never()).vote(Fruit.BANANA, userId);
+        verify(voteCommandRepository).save(Fruit.APPLE, userId);
+        verify(voteCommandRepository).save(Fruit.GRAPE, userId);
+        verify(voteCommandRepository, never()).save(Fruit.BANANA, userId);
     }
 }

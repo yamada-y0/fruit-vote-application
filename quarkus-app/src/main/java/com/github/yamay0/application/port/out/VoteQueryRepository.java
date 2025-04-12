@@ -3,8 +3,6 @@ package com.github.yamay0.application.port.out;
 import com.github.yamay0.application.domain.model.Fruit;
 import com.github.yamay0.application.domain.model.UserId;
 
-public interface VoteFruitPort {
-    void vote(Fruit fruits, UserId userId);
-
-    boolean hasAlreadyVoted(Fruit fruit, UserId userId);
+public interface VoteQueryRepository {
+    boolean exists(Fruit fruit, UserId userId);
 }

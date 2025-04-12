@@ -3,7 +3,8 @@ package com.github.yamay0.application.domain.service;
 import com.github.yamay0.application.domain.model.Fruit;
 import com.github.yamay0.application.domain.model.UserId;
 import com.github.yamay0.application.port.in.VoteFruitUseCase;
-import com.github.yamay0.application.port.out.VoteFruitPort;
+import com.github.yamay0.application.port.out.VoteCommandRepository;
+import com.github.yamay0.application.port.out.VoteQueryRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -12,10 +13,12 @@ import java.util.Set;
 
 @ApplicationScoped
 class VoteFruitService implements VoteFruitUseCase {
-    private final VoteFruitPort voteFruitPort;
+    private final VoteCommandRepository voteCommandRepository;
+    private final VoteQueryRepository voteQueryRepository;
 
-    VoteFruitService(VoteFruitPort voteFruitPort) {
-        this.voteFruitPort = voteFruitPort;
+    VoteFruitService(VoteCommandRepository voteCommandRepository, VoteQueryRepository voteQueryRepository) {
+        this.voteCommandRepository = voteCommandRepository;
+        this.voteQueryRepository = voteQueryRepository;
     }
 
     @Override
@@ -32,7 +35,7 @@ class VoteFruitService implements VoteFruitUseCase {
             throw new IllegalArgumentException("Fruits must be unique");
         }
         fruits.stream()
-                .filter(fruit -> !voteFruitPort.hasAlreadyVoted(fruit, userId))
-                .forEach(fruit -> voteFruitPort.vote(fruit, userId));
+                .filter(fruit -> !voteQueryRepository.exists(fruit, userId))
+                .forEach(fruit -> voteCommandRepository.save(fruit, userId));
     }
 }
