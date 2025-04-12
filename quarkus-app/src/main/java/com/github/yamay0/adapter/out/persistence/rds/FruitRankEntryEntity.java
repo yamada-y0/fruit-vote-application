@@ -1,4 +1,4 @@
-package com.github.yamay0.adapter.out.persistence;
+package com.github.yamay0.adapter.out.persistence.rds;
 
 import com.github.yamay0.application.domain.model.Fruit;
 import com.github.yamay0.application.domain.model.FruitRankEntry;

@@ -16,8 +16,6 @@ public class GetFruitRankAdapter implements GetFruitRankPort {
 
     @Override
     public List<FruitRankEntry> getRankedFruits() {
-        return voteRepository.getRankedFruits().stream()
-                .map(FruitRankEntryEntity::toFruitRankEntry)
-                .toList();
+        return voteRepository.getRankedFruits();
     }
 }
