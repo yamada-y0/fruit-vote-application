@@ -1,20 +1,15 @@
 package com.github.yamay0.adapter.out.persistence;
 
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
-import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
-import jakarta.enterprise.context.ApplicationScoped;
+import com.github.yamay0.application.domain.model.Fruit;
+import com.github.yamay0.application.domain.model.FruitRankEntry;
+import com.github.yamay0.application.domain.model.UserId;
 
 import java.util.List;
 
-@ApplicationScoped
-public class VoteRepository implements PanacheRepositoryBase<VoteEntity, VoteId> {
-    public List<FruitRankEntryEntity> getRankedFruits() {
-        PanacheQuery<FruitRankEntryEntity> query = find("""
-                select v.fruit as fruit, count(v) as count
-                from VoteEntity v
-                group by v.fruit
-                order by count(v) desc
-                """).project(FruitRankEntryEntity.class);
-        return query.stream().toList();
-    }
+public interface VoteRepository {
+    void save(Fruit fruit, UserId userId);
+
+    boolean exists(Fruit fruit, UserId userId);
+
+    List<FruitRankEntry> getRankedFruits();
 }
