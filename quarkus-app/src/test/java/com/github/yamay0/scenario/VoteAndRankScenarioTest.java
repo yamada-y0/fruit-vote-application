@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
 @TestProfile(VoteAndRankScenarioProfile.class)
-public class VoteAndRankIntegrationTest {
+public class VoteAndRankScenarioTest {
     @Test
     @TestTransaction
     @DisplayName("複数ユーザーによる投票とランキングの取得が正しく行われること")

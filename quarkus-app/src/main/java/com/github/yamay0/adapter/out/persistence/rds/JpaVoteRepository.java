@@ -1,15 +1,15 @@
 package com.github.yamay0.adapter.out.persistence.rds;
 
-import com.github.yamay0.adapter.out.persistence.VoteRepository;
 import com.github.yamay0.application.domain.model.Fruit;
 import com.github.yamay0.application.domain.model.FruitRankEntry;
 import com.github.yamay0.application.domain.model.UserId;
-import jakarta.enterprise.context.ApplicationScoped;
+import com.github.yamay0.application.port.out.FruitRankQueryRepository;
+import com.github.yamay0.application.port.out.VoteCommandRepository;
+import com.github.yamay0.application.port.out.VoteQueryRepository;
 
 import java.util.List;
 
-@ApplicationScoped
-public class JpaVoteRepository implements VoteRepository {
+public class JpaVoteRepository implements VoteCommandRepository, VoteQueryRepository, FruitRankQueryRepository {
     private final VoteEntityPanacheRepository internalRepository;
 
     public JpaVoteRepository(VoteEntityPanacheRepository internalRepository) {

@@ -4,6 +4,6 @@ import com.github.yamay0.application.domain.model.FruitRankEntry;
 
 import java.util.List;
 
-public interface GetFruitRankPort {
+public interface FruitRankQueryRepository {
     List<FruitRankEntry> getRankedFruits();
 }
