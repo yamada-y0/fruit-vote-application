@@ -35,5 +35,9 @@ export class NetworkStack extends cdk.Stack {
             vpc: this.vpc,
             service: ec2.GatewayVpcEndpointAwsService.S3,
         });
+        new ec2.GatewayVpcEndpoint(this, "DynamoDbEndpoint", {
+            vpc: this.vpc,
+            service: ec2.GatewayVpcEndpointAwsService.DYNAMODB,
+        });
     }
 }

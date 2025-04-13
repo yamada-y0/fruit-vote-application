@@ -92,6 +92,35 @@ exports[`NetworkStack Test Snapshot Test 1`] = `
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
+    "DynamoDbEndpointBF7E74F2": {
+      "Properties": {
+        "RouteTableIds": [
+          {
+            "Ref": "VPCIsolatedSubnet1RouteTableEB156210",
+          },
+          {
+            "Ref": "VPCIsolatedSubnet2RouteTable9B4F78DC",
+          },
+        ],
+        "ServiceName": {
+          "Fn::Join": [
+            "",
+            [
+              "com.amazonaws.",
+              {
+                "Ref": "AWS::Region",
+              },
+              ".dynamodb",
+            ],
+          ],
+        },
+        "VpcEndpointType": "Gateway",
+        "VpcId": {
+          "Ref": "VPCB9E5F0B4",
+        },
+      },
+      "Type": "AWS::EC2::VPCEndpoint",
+    },
     "EcrApiEndpointB01DFFD7": {
       "Properties": {
         "PrivateDnsEnabled": true,
