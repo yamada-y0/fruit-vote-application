@@ -5,7 +5,7 @@ import * as Infra from '../lib/app-stack';
 test('ECR Repository Created', () => {
     const app = new cdk.App();
     // WHEN
-    const stack = new Infra.AppStack(app, 'MyTestStack', {
+    const stack = new Infra.AppStack(app, 'AppTestStack', {
         appName: 'quarkus',
     });
 
