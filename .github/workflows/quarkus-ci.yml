@@ -1,13 +1,20 @@
-name: CI
+name: Quarkus CI
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'quarkus-app/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'quarkus-app/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./quarkus-app
 
     steps:
       - name: Checkout code
@@ -20,15 +27,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Grant execute permission for Gradle
-        working-directory: ./quarkus-app
         run: chmod +x ./gradlew
 
       - name: Build and run tests
-        working-directory: ./quarkus-app
         run: ./gradlew build
 
       - name: Run testNative
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: ./quarkus-app
         run: |
           ./gradlew testNative
