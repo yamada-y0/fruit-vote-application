@@ -20,5 +20,8 @@ export class SecurityStack extends cdk.Stack {
                 },
             }),
         })
+        role.addManagedPolicy(
+            iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonEC2ContainerRegistryPowerUser'),
+        )
     }
 }
