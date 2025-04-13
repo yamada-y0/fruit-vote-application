@@ -16,8 +16,10 @@ export class SecurityStack extends cdk.Stack {
             assumedBy: new iam.WebIdentityPrincipal(provider.openIdConnectProviderArn, {
                 StringEquals: {
                     'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
-                    'token.actions.githubusercontent.com:sub': `repo:yamada-y0/fruit-vote-benchmark:ref:refs/heads/main`,
                 },
+                StringLike: {
+                    'token.actions.githubusercontent.com:sub': `repo:yamada-y0/fruit-vote-benchmark:*`,
+                }
             }),
         })
         role.addManagedPolicy(
