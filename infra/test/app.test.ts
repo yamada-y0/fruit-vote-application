@@ -13,7 +13,7 @@ test('ECR Repository Created', () => {
     const template = Template.fromStack(stack);
 
     template.hasResourceProperties('AWS::ECR::Repository', {
-        RepositoryName: 'quarkus-repository',
+        RepositoryName: 'quarkus-app',
         EmptyOnDelete: true,
     });
 });

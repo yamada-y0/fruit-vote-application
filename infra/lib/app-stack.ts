@@ -11,7 +11,7 @@ export class AppStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: AppStackProps) {
         super(scope, id, props);
         new ecr.Repository(this, 'EcrRepository', {
-            repositoryName: `${props.appName}-repository`,
+            repositoryName: `${props.appName}-app`,
             removalPolicy: cdk.RemovalPolicy.DESTROY,
             emptyOnDelete: true,
         });
