@@ -160,6 +160,10 @@ exports[`AppStack Test Snapshot Test 1`] = `
     },
     "FargateServiceLBPublicListenerECSGroupBE57E081": {
       "Properties": {
+        "HealthCheckPath": "/health",
+        "Matcher": {
+          "HttpCode": "200",
+        },
         "Port": 80,
         "Protocol": "HTTP",
         "TargetGroupAttributes": [
@@ -264,6 +268,15 @@ exports[`AppStack Test Snapshot Test 1`] = `
         "ContainerDefinitions": [
           {
             "Essential": true,
+            "HealthCheck": {
+              "Command": [
+                "CMD-SHELL",
+                "curl -f http://localhost:8080/health || exit 1",
+              ],
+              "Interval": 30,
+              "Retries": 3,
+              "Timeout": 5,
+            },
             "Image": {
               "Fn::Join": [
                 "",

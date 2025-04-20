@@ -13,6 +13,7 @@ val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
 
 dependencies {
+    implementation("io.quarkus:quarkus-smallrye-health")
     implementation("io.quarkus:quarkus-container-image-docker")
     implementation("io.quarkiverse.amazonservices:quarkus-amazon-dynamodb-enhanced")
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:quarkus-amazon-services-bom:${quarkusPlatformVersion}"))
