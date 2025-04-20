@@ -26,6 +26,7 @@ export class AppStack extends cdk.Stack {
             vpc: props.vpc,
             clusterName: `${props.appName}-cluster`,
         });
+        const healthPath = "/health";
         const fargateService =
             new ecs_patterns.ApplicationLoadBalancedFargateService(
                 this,
@@ -34,6 +35,12 @@ export class AppStack extends cdk.Stack {
                     cluster: cluster,
                     cpu: 256,
                     desiredCount: 1,
+                    healthCheck: {
+                        command: [
+                            "CMD-SHELL",
+                            `curl -f http://localhost:8080${healthPath} || exit 1`,
+                        ],
+                    },
                     taskImageOptions: {
                         image: ecs.ContainerImage.fromEcrRepository(repository),
                         containerPort: 8080,
@@ -43,6 +50,10 @@ export class AppStack extends cdk.Stack {
                     publicLoadBalancer: false,
                 },
             );
+        fargateService.targetGroup.configureHealthCheck({
+            path: healthPath,
+            healthyHttpCodes: "200",
+        });
 
         const voteTable = new dynamodb.Table(this, "VoteTable", {
             partitionKey: {
